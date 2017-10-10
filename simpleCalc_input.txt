@@ -1,0 +1,18 @@
+if (1==1){
+    print(1);
+    print(2);
+};
+V = not 0 and 10;
+print(10 if not 0 if not 1-1 else not 1 else 12 /*hot enlig*/);
+print(10 + not (3 * not 5));
+print(
+    - not 0
+    #cool shit bruv
+);
+while (0) {
+    V = V + 1;
+    print(V);
+    if (V > 4) {
+        print(V * 10);
+    };
+};
