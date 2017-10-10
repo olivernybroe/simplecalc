@@ -1,12 +1,20 @@
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import java.io.PrintStream;
+
 class Interpreter extends AbstractParseTreeVisitor<Double> implements simpleCalcVisitor<Double> {
 
 	private Namespace namespace;
+	private PrintStream outStream;
+
+	public Interpreter(PrintStream outStream) {
+		this.namespace = new Namespace();
+		this.outStream = outStream;
+	}
 
 	public Interpreter() {
-		this.namespace	 = new Namespace();
+		this(System.out);
 	}
 
 	private static Double boolToDouble(boolean value) {
@@ -203,7 +211,7 @@ class Interpreter extends AbstractParseTreeVisitor<Double> implements simpleCalc
 
 	@Override
 	public Double visitPrint_(simpleCalcParser.Print_Context ctx) {
-		System.out.println(this.visit(ctx.expression_()));
+		this.outStream.println(this.visit(ctx.expression_()));
 		return null;
 	}
 
