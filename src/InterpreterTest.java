@@ -14,7 +14,6 @@ import static org.junit.Assert.*;
 
 public class InterpreterTest {
 
-	Interpreter interpreter;
 	private ByteArrayOutputStream outContent;
 
 	@Before
@@ -33,26 +32,123 @@ public class InterpreterTest {
 	public void operationOrder()
 	{
 		parseString("print(10-5*2);");
-
 		assertEquals("0.0", outContent.toString().trim());
 	}
 
 	@Test
-	public void testIf()
+	public void can_have_negative_numbers()
+	{
+		parseString("print(-2.3);");
+		assertEquals("-2.3", outContent.toString().trim());
+	}
+
+	@Test
+	public void can_use_not_equals_comparison()
+	{
+		parseString("print(1 != 1);");
+		assertEquals("0.0", outContent.toString().trim());
+	}
+
+	@Test
+	public void can_use_equals_comparison()
+	{
+		parseString("print(1 == 1);");
+		assertEquals("1.0", outContent.toString().trim());
+	}
+
+	@Test
+	public void can_use_less_than_comparison()
+	{
+		parseString("print(1 < 2);");
+		assertEquals("1.0", outContent.toString().trim());
+	}
+
+	@Test
+	public void can_use_greater_than_comparison()
+	{
+		parseString("print(1 > 2);");
+		assertEquals("0.0", outContent.toString().trim());
+	}
+
+	@Test
+	public void can_use_greater_than_or_equals_comparison()
+	{
+		parseString("print(1 >= 2);");
+		assertEquals("0.0", outContent.toString().trim());
+	}
+
+	@Test
+	public void can_use_greater_than_or_equals_where_equals_comparison()
+	{
+		parseString("print(1 >= 1);");
+		assertEquals("1.0", outContent.toString().trim());
+	}
+
+	@Test
+	public void can_use_less_than_or_equals_comparison()
+	{
+		parseString("print(1 <= 2);");
+		assertEquals("1.0", outContent.toString().trim());
+	}
+
+	@Test
+	public void can_use_less_than_or_equals_where_equals_comparison()
+	{
+		parseString("print(1 >= 1);");
+		assertEquals("1.0", outContent.toString().trim());
+	}
+
+	@Test
+	public void can_make_a_if_else_condition()
 	{
 		parseString("if(1==1) { print(2);} else {print(1);};");
 		assertEquals("2.0", outContent.toString().trim());
 	}
 
 	@Test
-	public void testWhile()
+	public void can_make_a_if_else_where_else_runs_condition()
+	{
+		parseString("if(1==0) { print(2);} else {print(1);};");
+		assertEquals("1.0", outContent.toString().trim());
+	}
+
+	@Test
+	public void can_make_a_if_condition()
+	{
+		parseString("if(1==1) { print(2);};");
+		assertEquals("2.0", outContent.toString().trim());
+	}
+
+	@Test
+	public void can_make_a_while_loop()
 	{
 		parseString("I = 0; while(I<3) {I=I+1;}; print(I);");
 		assertEquals("3.0", outContent.toString().trim());
 	}
 
 	@Test
-	public void testSequence()
+	public void can_have_single_line_comments()
+	{
+		parseString("print(1); #prints 1 out \n print(2);");
+		assertEquals("1.0\n2.0", outContent.toString().trim());
+	}
+
+	@Test
+	public void can_have_multi_line_comments()
+	{
+		parseString("print(2); /* first line \n second line \n */ print(3);");
+		assertEquals("2.0\n3.0", outContent.toString().trim());
+	}
+
+	@Test
+	public void can_have_inline_comment()
+	{
+		parseString("print(/* inline comment */ 2);");
+		assertEquals("2.0", outContent.toString().trim());
+	}
+
+	@Test
+	public void can_run_a_sequence_of_commands()
 	{
 		parseString("print(1); print(2);");
 		assertEquals("1.0\n2.0", outContent.toString().trim());
